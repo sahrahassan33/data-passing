@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Form from "./Form";
+import List from "./List";
+import "./App.css"; // Add this line to import the CSS file
 
-function App() {
+const App = () => {
+  const [tasks, setTasks] = useState([]);
+
+  const addTask = (task) => {
+    setTasks([...tasks, { text: task, completed: false }]);
+  };
+
+  const toggleComplete = (index) => {
+    const newTasks = [...tasks];
+    newTasks[index].completed = !newTasks[index].completed;
+    setTasks(newTasks);
+  };
+
+  const deleteTask = (index) => {
+    const newTasks = tasks.filter((_, i) => i !== index);
+    setTasks(newTasks);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      <h1>To-Do App</h1>
+      <Form addTask={addTask} />
+      <List
+        tasks={tasks}
+        toggleComplete={toggleComplete}
+        deleteTask={deleteTask}
+      />
     </div>
   );
-}
+};
 
 export default App;
